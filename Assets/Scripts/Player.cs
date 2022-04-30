@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Player : MonoBehaviour
 {
     private Rigidbody2D rb;
     private float speed = 2.0f;
+    Tilemap tilemap;
 
     // Start is called before the first frame update
     void Start()
@@ -16,7 +18,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(rb.velocity);
+        //--Movement--
         
         Vector2 vec = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
@@ -40,5 +42,34 @@ public class Player : MonoBehaviour
         }
         rb.velocity = vec * speed;
 
+
+        //--Flower Growth--
+
+        tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
+        
+        //left tile
+        if(tilemap.GetTile(tilemap.WorldToCell(new Vector3(transform.position.x - tilemap.cellSize.x, transform.position.y, 0))))
+        {
+
+        }
+
+        //right tile
+        if(tilemap.GetTile(tilemap.WorldToCell(new Vector3(transform.position.x + tilemap.cellSize.x, transform.position.y, 0))))
+        {
+
+        }
+
+        //down tile
+        if(tilemap.GetTile(tilemap.WorldToCell(new Vector3(transform.position.x, transform.position.y - tilemap.cellSize.y, 0))))
+        {
+
+        }
+        //up tile
+        if(tilemap.GetTile(tilemap.WorldToCell(new Vector3(transform.position.x, transform.position.y + tilemap.cellSize.y, 0))))
+        {
+
+        }
     }
+
+
 }
