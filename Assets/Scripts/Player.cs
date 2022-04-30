@@ -8,11 +8,16 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private float speed = 2.0f;
     Tilemap tilemap;
+    private bool[,] hasFlower;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
+        hasFlower = new bool[tilemap.size.x * 2,tilemap.size.y * 2];
+
     }
 
     // Update is called once per frame
@@ -27,7 +32,6 @@ public class Player : MonoBehaviour
         if (vec.x != 0 || vec.y != 0)
         {
             float deltaAng = Vector2.SignedAngle(new Vector2(Mathf.Cos(rb.rotation * Mathf.Deg2Rad), Mathf.Sin(rb.rotation * Mathf.Deg2Rad)), new Vector2(vec.x, vec.y));
-            print(deltaAng);
             rb.MoveRotation(90);
             float move = 1;
 
@@ -45,31 +49,45 @@ public class Player : MonoBehaviour
 
         //--Flower Growth--
 
-        tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
-        
-        //left tile
-        if(tilemap.GetTile(tilemap.WorldToCell(new Vector3(transform.position.x - tilemap.cellSize.x, transform.position.y, 0))))
-        {
+        Vector3Int pos;
 
+        //left tile
+        pos = tilemap.WorldToCell(new Vector3(transform.position.x - tilemap.cellSize.x, transform.position.y, 0));
+        if (!hasFlower[pos.x + tilemap.size.x, pos.y + tilemap.size.y] && tilemap.GetTile(pos))
+        {
+            generateFlower(pos);
+            hasFlower[pos.x + tilemap.size.x, pos.y + tilemap.size.y] = true;
         }
 
         //right tile
-        if(tilemap.GetTile(tilemap.WorldToCell(new Vector3(transform.position.x + tilemap.cellSize.x, transform.position.y, 0))))
+        pos = tilemap.WorldToCell(new Vector3(transform.position.x + tilemap.cellSize.x, transform.position.y, 0));
+        if (!hasFlower[pos.x + tilemap.size.x, pos.y + tilemap.size.y] && tilemap.GetTile(pos))
         {
-
+            generateFlower(pos);
+            hasFlower[pos.x + tilemap.size.x, pos.y + tilemap.size.y] = true;
         }
 
         //down tile
-        if(tilemap.GetTile(tilemap.WorldToCell(new Vector3(transform.position.x, transform.position.y - tilemap.cellSize.y, 0))))
+        pos = tilemap.WorldToCell(new Vector3(transform.position.x, transform.position.y - tilemap.cellSize.y, 0));
+        if (!hasFlower[pos.x + tilemap.size.x, pos.y + tilemap.size.y] && tilemap.GetTile(pos))
         {
-
+            generateFlower(pos);
+            hasFlower[pos.x + tilemap.size.x, pos.y + tilemap.size.y] = true;
         }
-        //up tile
-        if(tilemap.GetTile(tilemap.WorldToCell(new Vector3(transform.position.x, transform.position.y + tilemap.cellSize.y, 0))))
-        {
 
+        //up tile
+        pos = tilemap.WorldToCell(new Vector3(transform.position.x, transform.position.y + tilemap.cellSize.y, 0));
+        if(!hasFlower[pos.x + tilemap.size.x, pos.y + tilemap.size.y] && tilemap.GetTile(pos))
+        {
+            generateFlower(pos);
+            hasFlower[pos.x + tilemap.size.x, pos.y + tilemap.size.y] = true;
         }
     }
 
-
+    void generateFlower(Vector3Int pos)
+    {
+        Instantiate(GameObject.Find("Green"), new Vector3(tilemap.CellToWorld(pos).x + Random.Range(0,tilemap.cellSize.x), tilemap.CellToWorld(pos).y + Random.Range(0, tilemap.cellSize.y)), Quaternion.identity);
+        Instantiate(GameObject.Find("Red"), new Vector3(tilemap.CellToWorld(pos).x + Random.Range(0, tilemap.cellSize.x), tilemap.CellToWorld(pos).y + Random.Range(0, tilemap.cellSize.y)), Quaternion.identity);
+        Instantiate(GameObject.Find("Blue"), new Vector3(tilemap.CellToWorld(pos).x + Random.Range(0, tilemap.cellSize.x), tilemap.CellToWorld(pos).y + Random.Range(0, tilemap.cellSize.y)), Quaternion.identity);
+    }
 }
