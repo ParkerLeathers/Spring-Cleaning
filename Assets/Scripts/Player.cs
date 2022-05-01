@@ -37,7 +37,6 @@ public class Player : MonoBehaviour
         if (vec.x != 0 || vec.y != 0)
         {
             float deltaAng = Vector2.SignedAngle(new Vector2(Mathf.Cos(rotation * Mathf.Deg2Rad), Mathf.Sin(rotation * Mathf.Deg2Rad)), new Vector2(vec.x, vec.y));
-            print(deltaAng);
             float move = rotationSpeed;
 
             if (Mathf.Abs(deltaAng) < move)
@@ -57,9 +56,6 @@ public class Player : MonoBehaviour
                 rotation -= 360;
             else if (rotation < -180)
                 rotation += 360;
-
-
-            print(rotation);
 
             if(!sr.flipX)
                 transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotation));
