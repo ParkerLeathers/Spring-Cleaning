@@ -2,16 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MusicController : MonoBehaviour
+public class MenuMusicController : MonoBehaviour
 {
-    [SerializeField] private AudioSource musicIntro;
     [SerializeField] private AudioSource musicLoop;
     // Start is called before the first frame update
     void Start()
     {
-        if(musicIntro){
-        musicIntro.Play();
-        }
-        musicLoop.PlayDelayed(musicIntro.clip.length);
+        musicLoop.Play();
     }
 }
