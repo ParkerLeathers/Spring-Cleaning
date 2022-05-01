@@ -18,7 +18,6 @@ public class Hive : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        print("h");
         SceneManager.LoadScene(2);
     }
 
