@@ -5,8 +5,11 @@ using UnityEngine.Tilemaps;
 
 public class Player : MonoBehaviour
 {
+    public float speed;
+    public float rotationSpeed;
     private Rigidbody2D rb;
-    private float speed = 2.0f;
+    private SpriteRenderer sr;
+    private float rotation;
     Tilemap tilemap;
     private bool[,] hasFlower;
 
@@ -14,10 +17,12 @@ public class Player : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
+
+        rotation = rb.rotation;
 
         tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
         hasFlower = new bool[tilemap.size.x * 2,tilemap.size.y * 2];
-
     }
 
     // Update is called once per frame
@@ -31,18 +36,37 @@ public class Player : MonoBehaviour
             vec.Normalize();
         if (vec.x != 0 || vec.y != 0)
         {
-            float deltaAng = Vector2.SignedAngle(new Vector2(Mathf.Cos(rb.rotation * Mathf.Deg2Rad), Mathf.Sin(rb.rotation * Mathf.Deg2Rad)), new Vector2(vec.x, vec.y));
-            rb.MoveRotation(90);
-            float move = 1;
+            float deltaAng = Vector2.SignedAngle(new Vector2(Mathf.Cos(rotation * Mathf.Deg2Rad), Mathf.Sin(rotation * Mathf.Deg2Rad)), new Vector2(vec.x, vec.y));
+            print(deltaAng);
+            float move = rotationSpeed;
 
-            if (Mathf.Abs(deltaAng) < move) {
+            if (Mathf.Abs(deltaAng) < move)
                 move = Mathf.Abs(deltaAng);
-            }
-            if (deltaAng < 0) {
-                move *= -1;
-            }
 
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, rb.rotation + move));
+            if (deltaAng < 0)
+                move *= -1;
+
+            rotation += move;
+
+            if (Mathf.Abs(rotation) > 95)
+                 sr.flipX = true;
+            else if(Mathf.Abs(rotation) < 85)
+                 sr.flipX = false;
+
+            if (rotation > 180)
+                rotation -= 360;
+            else if (rotation < -180)
+                rotation += 360;
+
+
+            print(rotation);
+
+            if(!sr.flipX)
+                transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotation));
+            else if (rotation>1)
+                transform.rotation = Quaternion.Euler(new Vector3(0, 0, -180 + rotation));
+            else if(rotation<-1)
+                transform.rotation = Quaternion.Euler(new Vector3(0, 0, 180 + rotation));
         }
         rb.velocity = vec * speed;
 
