@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Chicken : MonoBehaviour
 {
+    [SerializeField] private AudioSource chirp;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +18,6 @@ public class Chicken : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
+        chirp.Play();
     }
 }
