@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class Hive : MonoBehaviour
 {
+    [SerializeField] private AudioSource fadeMusicSource;
+    [SerializeField] private AudioSource victoryMusicSource;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +20,8 @@ public class Hive : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        StartCoroutine(FadeAudioSource.StartFade(fadeMusicSource, 2, 0));
+        victoryMusicSource.Play();
         SceneManager.LoadScene(2);
     }
 
