@@ -5,9 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class PlayButton : MonoBehaviour
 {
+
     public Sprite sprite1;
     public Sprite sprite2;
     private SpriteRenderer sr;
+    [SerializeField] private AudioSource hoverAudio;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +31,7 @@ public class PlayButton : MonoBehaviour
     private void OnMouseEnter()
     {
         sr.sprite = sprite2;
+        hoverAudio.Play();
     }
 
     private void OnMouseUpAsButton()
