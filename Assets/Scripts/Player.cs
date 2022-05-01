@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public float rotationSpeed;
     private Rigidbody2D rb;
     private SpriteRenderer sr;
+    private AudioSource flowerSound;
     private float rotation;
     Tilemap tilemap;
     private bool[,] hasFlower;
@@ -21,6 +22,7 @@ public class Player : MonoBehaviour
 
         rotation = rb.rotation;
 
+        flowerSound = GameObject.Find("FlowerSound").GetComponent<AudioSource>();
         tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
         hasFlower = new bool[tilemap.size.x * 2,tilemap.size.y * 2];
     }
