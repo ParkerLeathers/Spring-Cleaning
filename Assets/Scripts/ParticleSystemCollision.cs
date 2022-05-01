@@ -21,7 +21,7 @@ public class ParticleSystemCollision : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        ps.Stop();
+        ps.Play();
         Destroy(this);
     }
 }
