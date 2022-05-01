@@ -10,6 +10,7 @@ public class PlayButton : MonoBehaviour
     public Sprite sprite2;
     private SpriteRenderer sr;
     [SerializeField] private AudioSource hoverAudio;
+    [SerializeField] private AudioSource startMusic;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +37,7 @@ public class PlayButton : MonoBehaviour
 
     private void OnMouseUpAsButton()
     {
+        startMusic.Play();
         SceneManager.LoadScene(1);
     }
 }
